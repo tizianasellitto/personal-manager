@@ -12,5 +12,7 @@ public class PersonalManagerApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
+	
+	//TODO Add Test for Inventory.
 
 }
