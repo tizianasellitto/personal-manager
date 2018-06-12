@@ -1,6 +1,10 @@
 package com.tizianasellitto.controller;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,21 +27,24 @@ public class InventoryController {
 	}
 
 	@RequestMapping("/inventory/{id}")
-	public Inventory getInventory(@PathVariable Long id ) {
-		return inventoryService.getInventory(id);
+	public Inventory getInventory(@PathVariable Long id) {
+		Optional<Inventory> inventory = inventoryService.getInventory(id);
+		if (!inventory.isPresent())
+			throw new EntityNotFoundException("Inventory id-" + id + " Not Found");
+		return inventory.get();
 	}
-	
-	@RequestMapping(method=RequestMethod.POST, value="/inventory")
-	public void addInventory(@RequestBody Inventory inventory) {
+
+	@RequestMapping(method = RequestMethod.POST, value = "/inventory")
+	public void addInventory(@Valid @RequestBody Inventory inventory) {
 		inventoryService.addInventory(inventory);
 	}
-	
-	@RequestMapping(method=RequestMethod.PUT, value="/inventory")
-	public void updateInventory(@RequestBody Inventory inventory) {
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/inventory")
+	public void updateInventory(@Valid @RequestBody Inventory inventory) {
 		inventoryService.updateInventory(inventory);
 	}
-	
-	@RequestMapping(method=RequestMethod.DELETE, value="/inventory/{id}")
+
+	@RequestMapping(method = RequestMethod.DELETE, value = "/inventory/{id}")
 	public void deleteTopic(@PathVariable Long id) {
 		inventoryService.deleteInventory(id);
 	}

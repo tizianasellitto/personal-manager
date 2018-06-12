@@ -2,6 +2,7 @@ package com.tizianasellitto.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,12 @@ public class InventoryService {
 		return inventories;
 	}
 
-	public Inventory getInventory(Long id) {
-		//return topics.stream().filter(t -> t.getId().equals(id)).findFirst().get();
-		return repository.findById(id).get();
+	public Optional<Inventory> getInventory(Long id) {
+		return repository.findById(id);
 	}
 
 	public void addInventory(Inventory inventory) {
 		repository.save(inventory);
-		
 	}
 
 	public void updateInventory(Inventory inventory) {
@@ -35,7 +34,6 @@ public class InventoryService {
 	}
 
 	public void deleteInventory(Long id) {
-		//topics.removeIf(t -> t.getId().equals(id));
 		repository.deleteById(id);
 	}
 }

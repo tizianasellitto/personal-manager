@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "manufacturer", "color" }) })
@@ -13,16 +17,32 @@ public class Inventory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+
+	@NotEmpty(message = "{name.EMPTY}")
+	@Length(max = 140)
 	private String name;
+
+	@NotEmpty(message = "{description.EMPTY}")
+	@Length(max = 140)
 	private String description;
+
+	@NotEmpty(message = "{manufacturer.EMPTY}")
+    @Length(max = 140)
 	private String manufacturer;
+
+    @Length(max = 140)
 	private String color;
+	
+	@Positive
 	private Integer weight;
+	
+    @Length(max = 255)
 	private String note;
 
 	public Inventory() {
-		
+
 	}
+
 	public Inventory(Long id, String name, String description, String manufacturer, String color, Integer weight,
 			String note) {
 		this.id = id;
